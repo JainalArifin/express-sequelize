@@ -1,0 +1,2 @@
+# express-sequelize
+express-sequelize
