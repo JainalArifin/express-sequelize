@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <a href="/">Home</a>
+    <a href="/teacher">Teacher</a>
+    <a href="/subject">Subject</a>
+    <a href="/student">Student</a>
+    <br><br>
+    <h1>Tabel Subject</h1>
+    <table border="2">
+      <tr>
+        <th>ID</th>
+        <th>Subject Name</th>
+      </tr>
+      <% dtSubject.forEach(data =>{ %>
+        <tr>
+          <th><%= data.id %></th>
+          <th><%= data.subject_name %></th>
+        </tr>
+      <% }) %>
+    </table>
+  </body>
+</html>

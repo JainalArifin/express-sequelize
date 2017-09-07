@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <form class="" action="/student/edit/<%= dtStudent.id %>" method="post">
+      <input type="text" name="first_name" value="<%= dtStudent.first_name %>">
+      <input type="text" name="last_name" value="<%= dtStudent.last_name %>">
+      <input type="text" name="email" value="<%= dtStudent.email %>">
+      <button type="submit" name="submit">Save</button>
+    </form>
+  </body>
+</html>
