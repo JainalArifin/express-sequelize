@@ -19,15 +19,21 @@
         <th>ID</th>
         <th>First Name</th>
         <th>Last Name</th>
+        <th>Full Name</th>
         <th>Email</th>
-        <th colspan="2">Action</th>
+        <th>Action</th>
+        <th colspan="2">Option</th>
       </tr>
       <% dtStudent.forEach(data => { %>
         <tr>
           <th><%= data.id %></th>
           <td><%= data.first_name %></td>
           <td><%= data.last_name %></td>
+          <td><%= data.first_name+' '+data.last_name %></td>
           <td><%= data.email %></td>
+          <td>
+            <a href="/student/<%= data.id %>/addSubject">addSubject</a>
+          </td>
           <td>
             <a href="/student/edit/<%= data.id %>">Edit</a>
           </td>

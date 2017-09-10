@@ -3,15 +3,88 @@ const router = express.Router()
 const Model = require('../models')
 
 router.get('/', (req, res)=>{
-  Model.Subject.findAll()
+  Model.Subject.findAll({
+    order:[['subject_name', 'ASC']],
+    include: [Model.Teacher]
+  })
   .then(dataSubject => {
     // res.send(dataSubject)
     //[{"id":1,"subject_name":"kimia","createdAt":"2017-09-07T07:36:27.177Z","updatedAt":"2017-09-07T07:36:27.177Z"},{"id":2,"subject_name":"Ekonomi","createdAt":"2017-09-07T07:36:27.177Z","updatedAt":"2017-09-07T07:36:27.177Z"}]
+    // console.log(dataSubject[1].Teachers.length, '<-----ini data subject');
     res.render('subject', {dtSubject:dataSubject})
     // projects will be an array of all Project instances
   })
   .catch((err) => {
     res.send(err)
+  })
+})
+
+router.get('/add', (req, res)=>{
+  res.render('addSubject')
+})
+
+router.post('/', (req, res)=> {
+  Model.Subject.create({
+    subject_name: `${req.body.subject_name}`
+  })
+  .then(() => {
+    res.redirect('/subject')
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+})
+
+router.get('/:id/enrolledstudents', (req, res)=>{
+  Model.StudentSubject.findAll({
+    where: {
+      SubjectId: `${req.params.id}`
+    },
+    include: [{all:true}]
+  })
+  .then((dataSubjectStudent) => {
+    console.log(dataSubjectStudent[1].score, '<---------- in data subject');
+    //[{"StudentId":50,"SubjectId":2,"createdAt":"2017-09-09T17:56:28.066Z","updatedAt":"2017-09-09T17:56:28.066Z","Student":{"id":50,"first_name":"zainal","last_name":"arif","email":"zainalunapam05@gmail.com","createdAt":"2017-09-08T08:29:51.148Z","updatedAt":"2017-09-08T08:29:51.148Z"},"Subject":{"id":2,"subject_name":"Ekonomi","createdAt":"2017-09-07T07:36:27.177Z","updatedAt":"2017-09-07T07:36:27.177Z"}}]
+    res.render('subjectEnrolledStudents', {dtSubjectStudent:dataSubjectStudent})
+  })
+  .catch((err) => {
+    res.send('Data belum ada')
+  })
+})
+
+router.get('/:id/:ids/givescore', (req, res)=>{
+  Model.Subject.findAll({
+    where: {
+      id: `${req.params.ids}`
+    }
+  })
+  .then((dataSubject) => {
+    Model.Student.findAll({
+      where: {
+        id: `${req.params.id}`
+      }
+    })
+    // console.log(dataSubject, '<------ data subject yang baru');
+    .then((dataStudent) => {
+      // console.log(dataSubject, '<---------- data subject');
+      res.render('subjectGiveScore', {dtStudent:dataStudent[0], dtSubject:dataSubject[0]})
+    })
+  })
+})
+
+router.post('/:id/:ids/givescore', (req, res)=>{
+  Model.StudentSubject.update({
+    score: req.body.score
+  },{
+    where: {
+      StudentId: `${req.params.id}`,
+      $and: {
+        SubjectId: `${req.params.ids}`
+      }
+    }
+  })
+  .then(() => {
+    res.redirect('/subject')
   })
 })
 

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1>ADD Subject to Student</h1>
+    <form action="/student/<%= dtStudent.id %>/addSubject" method="post">
+      <input type="text" name="first_name" value="<%= dtStudent.first_name %>">
+      <input type="text" name="last_name" value="<%= dtStudent.last_name %>">
+      <input type="text" name="email" value="<%= dtStudent.email %>">
+
+      <% if( dtSubject.subject == null ){ %>
+        <select name="pilihSubject">
+          <option value="">select subject</option>
+          <% dtSubject.forEach((data)=>{ %>
+            <option value="<%= data.id %>"><%= data.subject_name %></option>
+          <% }) %>
+        </select>
+      <% }else{ %>
+        <select name="pilihSubject">
+          <option value="<%= dtStudent.Subject[0].StudentSubject.StudentId %>" selected="<%= dtStudent.Subject[0].StudentSubject.StudentId %>"><%= dtStudent.Subject[0].subject_name %></option>
+          <% dtSubject.forEach((data)=>{ %>
+            <option value="<%= data.id %>"><%= data.subject_name %></option>
+          <% }) %>
+        </select>
+      <% } %>
+
+      <button type="submit" name="submit">Tambah</button>
+    </form>
+  </body>
+</html>
