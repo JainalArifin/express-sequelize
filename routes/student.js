@@ -23,7 +23,7 @@ router.get('/add', (req, res)=>{
 router.post('/', (req, res)=> {
   Model.Student.create({
     first_name:`${req.body.first_name}`,
-    last_name:`${req.body.first_name}`,
+    last_name:`${req.body.last_name}`,
     email:`${req.body.email}` })
   .then(task => {
     // console.log('test');
@@ -81,5 +81,35 @@ router.post('/edit/:id', (req, res)=>{
     res.redirect('/student')
   })
 })
+
+router.get('/:id/addSubject', (req, res)=>{
+  Model.Student.findById(req.params.id)
+  .then((dataStudent) => {
+    Model.Subject.findAll()
+    .then((dataSubject) => {
+      // res.send(dataStudent)
+      // console.log(dataStudent[0], '<--------- data student');
+      res.render('addStudentSubject', {dtStudent:dataStudent, dtSubject:dataSubject})
+    })
+  })
+})
+
+router.post('/:id/addSubject', (req, res)=>{
+  Model.StudentSubject.create({
+    StudentId: `${req.params.id}`,
+    SubjectId: `${req.body.pilihSubject}`
+  },{
+    where: {
+      id:`${req.params.id}`
+    }
+  })
+  .then(() => {
+    res.redirect('/student')
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+})
+
 
 module.exports = router

@@ -11,15 +11,29 @@
     <a href="/student">Student</a>
     <br><br>
     <h1>Tabel Subject</h1>
+    <h2><a href="/subject/add">add Subject</a></h2>
     <table border="2">
       <tr>
         <th>ID</th>
         <th>Subject Name</th>
+        <th>Teachers</th>
+        <th>Action</th>
       </tr>
       <% dtSubject.forEach(data =>{ %>
         <tr>
           <th><%= data.id %></th>
           <th><%= data.subject_name %></th>
+          <% if( data.Teachers.legenth != 0 ){ %>
+            <td>
+              <% for(var i=0; i< data.Teachers.length; i++ ){ %>
+                <%= i+1 %>.
+                <%=  data.Teachers[i].first_name %> <%= data.Teachers[i].last_name %><br>
+              <% } %>
+            </td>
+          <% } %>
+          <td>
+            <a href="/subject/<%= data.id %>/enrolledstudents">enrolledstudents</a>
+          </td>
         </tr>
       <% }) %>
     </table>
