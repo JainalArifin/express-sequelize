@@ -2,45 +2,52 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <%- include partial/header %>
-    <title></title>
+    <title><%= title %></title>
+    <%- include partial/cdnBootsrap %>
+    <%- include partial/style %>
   </head>
   <body>
-    <a href="/">Home</a>
-    <a href="/teacher">Teacher</a>
-    <a href="/subject">Subject</a>
-    <a href="/student">Student</a>
-    <br><br>
-    <h1>Tabel Teacher</h1>
-    <h2><a href="/teacher/add">ADD Teacher</a></h2>
-    <table border="1" class="table table-striped table-hover ">
-      <tr>
-        <th>ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Email</th>
-        <th>Subject</th>
-        <th colspan="2">Action</th>
-      </tr>
-      <% dtTeacher.forEach(data=>{ %>
-        <tr>
-          <th><%= data.id %></th>
-          <td><%= data.first_name %></td>
-          <td><%= data.last_name %></td>
-          <td><%= data.email %></td>
-          <% if(data.SubjectId == null){ %>
-            <td>Unassigned</td>
-          <% }else{ %>
-            <td><%= data.Subject.subject_name %></td>
-          <% } %>
-          <td>
-            <a href="/teacher/edit/<%= data.id %>">Edit</a>
-          </td>
-          <td>
-            <a href="/teacher/delete/<%= data.id %>">Delete</a>
-          </td>
-        </tr>
-      <% }) %>
-    </table>
+    <div class="container">
+      <div class="row">
+        <h1>Tabel Teacher</h1>
+        <%- include partial/link-menu %>
+        <%- include partial/addDropdown %>
+
+        <table class="table table-striped table-hover">
+          <tr  class="success">
+            <th>No</th>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Subject</th>
+            <th colspan="2">Action</th>
+          </tr>
+          <% let count=0; %>
+          <% dtTeacher.forEach(data=>{ %>
+            <tr>
+              <% count++ %>
+              <td><%= count %></td>
+              <th><%= data.id %></th>
+              <td><%= data.first_name %></td>
+              <td><%= data.last_name %></td>
+              <td><%= data.email %></td>
+              <% if(data.SubjectId == null){ %>
+                <td>Unassigned</td>
+              <% }else{ %>
+                <td><%= data.Subject.subject_name %></td>
+              <% } %>
+              <td>
+                <a href="/teacher/edit/<%= data.id %>" class="glyphicon glyphicon-pencil"> Edit</a>
+              </td>
+              <td>
+                <a href="/teacher/delete/<%= data.id %>" class="glyphicon glyphicon-floppy-remove"> Delete</a>
+              </td>
+            </tr>
+          <% }) %>
+        </table>
+
+      </div>
+    </div>
   </body>
 </html>

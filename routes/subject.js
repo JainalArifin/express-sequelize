@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Model = require('../models')
+const helper = require('../helpers/helper-score')
 
 router.get('/', (req, res)=>{
   Model.Subject.findAll({
@@ -8,10 +9,10 @@ router.get('/', (req, res)=>{
     include: [Model.Teacher]
   })
   .then(dataSubject => {
-    // res.send(dataSubject)
+    console.log(dataSubject, '<------ ini data subject')
     //[{"id":1,"subject_name":"kimia","createdAt":"2017-09-07T07:36:27.177Z","updatedAt":"2017-09-07T07:36:27.177Z"},{"id":2,"subject_name":"Ekonomi","createdAt":"2017-09-07T07:36:27.177Z","updatedAt":"2017-09-07T07:36:27.177Z"}]
     // console.log(dataSubject[1].Teachers.length, '<-----ini data subject');
-    res.render('subject', {dtSubject:dataSubject})
+    res.render('subject', {dtSubject:dataSubject, title:'Subject'})
     // projects will be an array of all Project instances
   })
   .catch((err) => {
@@ -37,15 +38,22 @@ router.post('/', (req, res)=> {
 
 router.get('/:id/enrolledstudents', (req, res)=>{
   Model.StudentSubject.findAll({
+    // order:{{Student['first_name', 'ASC']}},
     where: {
       SubjectId: `${req.params.id}`
     },
     include: [{all:true}]
   })
   .then((dataSubjectStudent) => {
-    console.log(dataSubjectStudent[1].score, '<---------- in data subject');
+
+    // console.log(dataSubjectStudent.length, '<---------- in data subject !!!');
     //[{"StudentId":50,"SubjectId":2,"createdAt":"2017-09-09T17:56:28.066Z","updatedAt":"2017-09-09T17:56:28.066Z","Student":{"id":50,"first_name":"zainal","last_name":"arif","email":"zainalunapam05@gmail.com","createdAt":"2017-09-08T08:29:51.148Z","updatedAt":"2017-09-08T08:29:51.148Z"},"Subject":{"id":2,"subject_name":"Ekonomi","createdAt":"2017-09-07T07:36:27.177Z","updatedAt":"2017-09-07T07:36:27.177Z"}}]
-    res.render('subjectEnrolledStudents', {dtSubjectStudent:dataSubjectStudent})
+    if(dataSubjectStudent[0].Subject.subject_name == null){
+      res.send('data belum ada')
+    }else {
+      res.render('subjectEnrolledStudents', {dtSubjectStudent:dataSubjectStudent,  helper:helper})
+    }
+
   })
   .catch((err) => {
     res.send('Data belum ada')
