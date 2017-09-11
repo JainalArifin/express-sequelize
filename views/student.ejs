@@ -2,46 +2,52 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title><%= title %></title>
+    <%- include partial/cdnBootsrap %>
+    <%- include partial/style %>
   </head>
   <body>
-    <a href="/">Home</a>
-    <a href="/teacher">Teacher</a>
-    <a href="/subject">Subject</a>
-    <a href="/student">Student</a>
-    <br><br>
-    <h1>Table Student</h1>
-    <h2><a href="/student/add">Add Student</a></h2>
 
-    <br><br>
-    <table border="2">
-      <tr>
-        <th>ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Full Name</th>
-        <th>Email</th>
-        <th>Action</th>
-        <th colspan="2">Option</th>
-      </tr>
-      <% dtStudent.forEach(data => { %>
-        <tr>
-          <th><%= data.id %></th>
-          <td><%= data.first_name %></td>
-          <td><%= data.last_name %></td>
-          <td><%= data.first_name+' '+data.last_name %></td>
-          <td><%= data.email %></td>
-          <td>
-            <a href="/student/<%= data.id %>/addSubject">addSubject</a>
-          </td>
-          <td>
-            <a href="/student/edit/<%= data.id %>">Edit</a>
-          </td>
-          <td>
-            <a href="/student/delete/<%= data.id %>">Delete</a>
-          </td>
-        </tr>
-      <% }) %>
-    </table>
+    <div class="container">
+      <div class="row">
+        <h1>Table Student</h1>
+        <%- include partial/link-menu %>
+        <%- include partial/addDropdown %>
+        <br><br>
+        <table class="table table-striped table-hover">
+          <tr  class="success">
+            <th>No</th>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Action</th>
+            <th colspan="2">Option</th>
+          </tr>
+          <% let count = 0 %>
+          <% dtStudent.forEach(data => { %>
+            <% count++ %>
+            <tr>
+              <td><%= count %></td>
+              <th><%= data.id %></th>
+              <td><%= data.first_name %></td>
+              <td><%= data.last_name %></td>
+              <td><%= data.first_name+' '+data.last_name %></td>
+              <td><%= data.email %></td>
+              <td>
+                <a href="/student/<%= data.id %>/addSubject">addSubject</a>
+              </td>
+              <td>
+                <a href="/student/edit/<%= data.id %>" class="glyphicon glyphicon-pencil"> Edit</a>
+              </td>
+              <td>
+                <a href="/student/delete/<%= data.id %>" class="glyphicon glyphicon-floppy-remove"> Delete</a>
+              </td>
+            </tr>
+          <% }) %>
+        </table>
+      </div>
+    </div>
   </body>
 </html>

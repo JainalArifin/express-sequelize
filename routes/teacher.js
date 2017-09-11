@@ -8,15 +8,16 @@ router.get('/', (req, res)=>{
     include: [Model.Subject]
   })
   .then(dataTeacher => {
+
     // console.log(dataTeacher, '<------- ini data teacher');
     // res.send(dataTeacher)
-    res.render('teacher', {dtTeacher:dataTeacher})
+    res.render('teacher', {dtTeacher:dataTeacher, title:'Teacher'})
   })
 })
 
 router.get('/add', (req, res)=>{
   // res.send('Percobaan')
-  res.render('addTeacher', {errEmail:''} )
+  res.render('addTeacher', {errEmail:'', title:'Teacher'} )
 })
 
 router.post('/', (req, res)=>{
@@ -30,7 +31,7 @@ router.post('/', (req, res)=>{
   })
   .catch(() => {
     // console.log('percobaan email');
-    res.render('addTeacher', {errEmail: 'Format email salah atau email sudah di Gunakan'})
+    res.render('addTeacher', {errEmail: 'Format email salah atau email sudah di Gunakan', title:'Teacher'})
   })
 })
 
@@ -57,9 +58,9 @@ router.get('/edit/:id', (req, res)=>{
     Model.Subject.findAll()
     .then((dataSubject) => {
 
-      // console.log(dataSubject[0].id, '<--------ini data subject untuk mendapatkan ID');
+      // console.log(dataSubject[2], '<--------ini data subject untuk mendapatkan ID');
       for (var i = 0; i < dataSubject.length; i++) {
-        console.log(dataSubject[i].id);
+        console.log(dataSubject[i] );
       }
 
       res.render('editTeacher', {dtTeacher:dataTeacher[0], dtSubject:dataSubject})

@@ -3,32 +3,47 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <%- include partial/cdnBootsrap %>
   </head>
   <body>
-    <h1><%= dtSubjectStudent[0].Subject.subject_name %></h1>
-    <table>
-      <tr>
-        <th>No</th>
-        <th>Student Name</th>
-        <th>Score</th>
-      </tr>
-      <% var no = 0;  for(var i = 0; i < dtSubjectStudent.length; i++ ){%>
-        <tr>
+    <div class="container">
+      <div class="row"><br><br>
+        <a href="/subject"><button type="button" name="button" class="btn btn-primary glyphicon glyphicon-hand-left"> Kembali</button></a><br><br>
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title"><%= dtSubjectStudent[0].Subject.subject_name %></h3>
+          </div>
+          <div class="panel-body">
+            <table class="table table-bordered">
+              <tr>
+                <th>No</th>
+                <th>Student Name</th>
+                <th>Score</th>
+                <th>Score By Letter</th>
+              </tr>
+              <% var no = 0;  for(var i = 0; i < dtSubjectStudent.length; i++ ){%>
+                <tr>
 
-          <% if(dtSubjectStudent[i].Student !== null ){ %>
-            <td><%= no +=1 %></td>
-            <td><%= dtSubjectStudent[i].Student.first_name %> <%= dtSubjectStudent[i].Student.last_name %></td>
-          <% } %>
+                  <% if(dtSubjectStudent[i].Student !== null ){ %>
+                    <td><%= no +=1 %></td>
+                    <td><%= dtSubjectStudent[i].Student.first_name %> <%= dtSubjectStudent[i].Student.last_name %></td>
+                  <% } %>
 
-          <% if( dtSubjectStudent[i].score == null && dtSubjectStudent[i].Student !== null){ %>
-            <td>
-              <a href="/subject/<%= dtSubjectStudent[i].StudentId %>/<%= dtSubjectStudent[i].SubjectId %>/givescore"> Givescore</a>
-            </td>
-          <% }else if(dtSubjectStudent[i].Student !== null){ %>
-            <td><%= dtSubjectStudent[i].score %></td>
-          <% } %>
-        </tr>
-      <% } %>
-    </table>
+                  <% if( dtSubjectStudent[i].score == null && dtSubjectStudent[i].Student !== null){ %>
+                    <td>
+                      <a href="/subject/<%= dtSubjectStudent[i].StudentId %>/<%= dtSubjectStudent[i].SubjectId %>/givescore"> Givescore</a>
+                    </td>
+                    <td><%= helper('Givescore') %></td>
+                  <% }else if(dtSubjectStudent[i].Student !== null){ %>
+                    <td><%= dtSubjectStudent[i].score %></td>
+                    <td><%= helper(dtSubjectStudent[i].score) %></td>
+                  <% } %>
+                </tr>
+              <% } %>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

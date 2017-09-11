@@ -17,7 +17,9 @@
           <% }) %>
         <% }else{ %>
           <option value="<%= dtTeacher.SubjectId %>" selected="<%= dtTeacher.SubjectId %>"><%= dtTeacher.Subject.subject_name %></option>
-          <option value="<%= dtSubject.id %>"><%= dtSubject.subject_name %></option>
+          <% dtSubject.forEach(data =>{ %>
+            <option value="<%= data.id %>"><%= data.subject_name %></option>
+          <% }) %>
         <% } %>
     </select>
     <button type="submit" name="submit">Save</button>

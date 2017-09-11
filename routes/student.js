@@ -3,11 +3,13 @@ const router = express.Router()
 const Model = require('../models')
 
 router.get('/', (req, res)=>{
-  Model.Student.findAll()
+  Model.Student.findAll({
+    order:[['first_name', 'ASC']]
+  })
   .then(dataStudent => {
     // res.send(dataStudent)
-    // console.log(dataStudent, ' <------ ini data student');
-    res.render('student', {dtStudent:dataStudent})
+    console.log(dataStudent, ' <------ ini data student');
+    res.render('student', {dtStudent:dataStudent, title:'Student'})
   })
   .catch((err) => {
     res.send(err)
@@ -88,7 +90,7 @@ router.get('/:id/addSubject', (req, res)=>{
     Model.Subject.findAll()
     .then((dataSubject) => {
       // res.send(dataStudent)
-      // console.log(dataStudent[0], '<--------- data student');
+      console.log(dataSubject, '<--------- data student');
       res.render('addStudentSubject', {dtStudent:dataStudent, dtSubject:dataSubject})
     })
   })
