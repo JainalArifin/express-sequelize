@@ -21,6 +21,7 @@ module.exports = function(sequelize, DataTypes) {
     Student.belongsToMany(models.Subject, {
       through: 'StudentSubject'
     })
+    Student.hasMany(models.StudentSubject)
   }
   return Student;
 };
