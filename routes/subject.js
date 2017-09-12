@@ -3,15 +3,23 @@ const router = express.Router()
 const Model = require('../models')
 const helper = require('../helpers/helper-score')
 
+router.use((req, res, next)=>{
+  if(req.session.role === 'academic' || req.session.role === 'headmaster' ){
+    next()
+  }else {
+    res.send('anda bukan academic dan headmaster')
+  }
+})
+
 router.get('/', (req, res)=>{
   Model.Subject.findAll({
     order:[['subject_name', 'ASC']],
     include: [Model.Teacher]
   })
   .then(dataSubject => {
-    console.log(dataSubject, '<------ ini data subject')
+    // console.log(dataSubject, '<------ ini data subject')
     //[{"id":1,"subject_name":"kimia","createdAt":"2017-09-07T07:36:27.177Z","updatedAt":"2017-09-07T07:36:27.177Z"},{"id":2,"subject_name":"Ekonomi","createdAt":"2017-09-07T07:36:27.177Z","updatedAt":"2017-09-07T07:36:27.177Z"}]
-    // console.log(dataSubject[1].Teachers.length, '<-----ini data subject');
+    // console.log(dataSubject[1].Teachers, '<-----ini data subject teacher');
     res.render('subject', {dtSubject:dataSubject, title:'Subject'})
     // projects will be an array of all Project instances
   })
@@ -46,7 +54,7 @@ router.get('/:id/enrolledstudents', (req, res)=>{
   })
   .then((dataSubjectStudent) => {
 
-    // console.log(dataSubjectStudent.length, '<---------- in data subject !!!');
+    console.log(dataSubjectStudent, '<---------- in data subject !!!');
     //[{"StudentId":50,"SubjectId":2,"createdAt":"2017-09-09T17:56:28.066Z","updatedAt":"2017-09-09T17:56:28.066Z","Student":{"id":50,"first_name":"zainal","last_name":"arif","email":"zainalunapam05@gmail.com","createdAt":"2017-09-08T08:29:51.148Z","updatedAt":"2017-09-08T08:29:51.148Z"},"Subject":{"id":2,"subject_name":"Ekonomi","createdAt":"2017-09-07T07:36:27.177Z","updatedAt":"2017-09-07T07:36:27.177Z"}}]
     if(dataSubjectStudent[0].Subject.subject_name == null){
       res.send('data belum ada')

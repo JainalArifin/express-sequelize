@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <%- include partial/cdnBootsrap %>
+    <%- include partial/loginStyle  %>
+  </head>
+  <body>
+    <div class="conatiner">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="kotak">
+            <% if(tampilSalah){ %>
+              <p class="btn btn-danger"><%= tampilSalah %></p>
+            <% } %>
+            <form action="/login" method="post">
+              <div class="form-group">
+                <label for="exampleInputEmail1">username</label>
+                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="username" name="username">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password">
+              </div>
+              <button type="submit" name="submit" class="btn btn-primary glyphicon glyphicon-user"> Masuk</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

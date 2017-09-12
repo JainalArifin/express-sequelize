@@ -2,6 +2,14 @@ const express = require('express')
 const router = express.Router()
 const Model = require('../models')
 
+router.use((req, res, next)=>{
+  if(req.session.role === 'teacher' || req.session.role === 'academic' || req.session.role === 'headmaster' ){
+    next()
+  }else {
+    res.send('anda bukan ketiganya')
+  }
+})
+
 router.get('/', (req, res)=>{
   Model.Student.findAll({
     order:[['first_name', 'ASC']]
@@ -33,9 +41,13 @@ router.post('/', (req, res)=> {
     res.redirect('/student')
     // you can now access the newly created task via the variable task
   })
-  .catch(() => {
-    // res.send(err.message)
-    res.render('addStudent', {errEmail: 'Format email salah atau email sudah di Gunakan'})
+  .catch((err) => {
+    // {"name":"SequelizeValidationError","errors":[{"message":"Validation isEmail on email failed","type":"Validation error","path":"email","value":"mkmkm","__raw":{}}]}
+    //Validation error: Validation isEmail on email failed
+
+    res.send(err.errors[0].message)
+    // console.log(err.message, '<----------');
+    // res.render('addStudent', {errEmail:err.message})
   })
 })
 

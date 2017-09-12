@@ -2,6 +2,14 @@ let express = require('express')
 let router = express.Router()
 let Model = require('../models')
 
+router.use((req, res, next)=>{
+  if(req.session.rol ==='headmaster' ){
+    next()
+  }else {
+    res.send('anda bukan teacher')
+  }
+})
+
 router.get('/', (req, res)=>{
   Model.Teacher.findAll({
     order:[['first_name', 'ASC']],

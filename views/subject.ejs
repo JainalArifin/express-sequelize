@@ -12,7 +12,7 @@
 
           <h1>Tabel Subject</h1>
           <%- include partial/link-menu %>
-          <%- include partial/addDropdown %>
+          <a href="/subject/add"><button type="button" name="button" class="btn btn-danger">subject</button></a><br><br>
           <table class="table table-striped table-hover">
             <tr  class="success">
               <th>No</th>
@@ -28,14 +28,14 @@
                 <td><%= count %></td>
                 <th><%= data.id %></th>
                 <th><%= data.subject_name %></th>
-                <% if( data.Teachers.legenth != 0 ){ %>
+                <!-- <% if( data.Teachers.length != 0 ){ %> -->
                   <td>
                     <% for(var i=0; i< data.Teachers.length; i++ ){ %>
                       <%= i+1 %>.
                       <%=  data.Teachers[i].first_name %> <%= data.Teachers[i].last_name %><br>
                     <% } %>
                   </td>
-                <% } %>
+                <!-- <% } %> -->
                 <td>
                   <a href="/subject/<%= data.id %>/enrolledstudents" class="glyphicon glyphicon-retweet"> enrolledstudents</a>
                 </td>
